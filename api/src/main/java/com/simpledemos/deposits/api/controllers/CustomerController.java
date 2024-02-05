@@ -1,6 +1,9 @@
 package com.simpledemos.deposits.api.controllers;
 
+import com.simpledemos.deposits.api.dto.CustomerDto;
 import com.simpledemos.deposits.api.models.CustomerEntity;
+import com.simpledemos.deposits.api.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/")
 public class CustomerController {
+
+    private CustomerService customerService;
+
+    @Autowired
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping("customer")
     public ResponseEntity<List<CustomerEntity>> getCustomers() {
@@ -28,9 +38,10 @@ public class CustomerController {
 
     @PostMapping("customer/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CustomerEntity> createCustomer(@RequestBody CustomerEntity customer){
-        System.out.println(customer.getFullName());
-        return new ResponseEntity<CustomerEntity>(customer, HttpStatus.CREATED);
+    public ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto customerDto){
+        return new ResponseEntity<>(
+                customerService.createCustomer(customerDto),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("customer/{id}/update")

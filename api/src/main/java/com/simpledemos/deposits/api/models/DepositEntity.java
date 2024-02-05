@@ -17,7 +17,7 @@ import java.util.Date;
 public class DepositEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 //    private DepositTypeEntity depositType;
 //    private CustomerEntity customer;
     private Date openingDate;
